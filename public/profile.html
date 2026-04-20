@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Tender Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script src="https://kit.fontawesome.com/de4ee47533.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+        
+        <a href="home.html" class="logo">Tender Management</a>
+        
+        
+        <nav class="navbar">
+            <ul>
+                <li class="nav-item" id="navHome"><a class="nav-link" href="home.html"><span class="icon"><i class="fa-solid fa-house"></i></span><span class="name">HOME</span></a></li>
+                
+                <li class="nav-item" id="navDashboard"><a class="nav-link" href="dashboard.html"><span class="icon"><i class="fa-solid fa-chart-line"></i></span><span class="name">DASHBOARD</span></a></li>
+                <li class="nav-item" id="navCreateTender"><a class="nav-link" href="create-tender.html"><span class="icon"><i class="fa-solid fa-plus-circle"></i></span><span class="name">CREATE TENDER</span></a></li>
+                <li class="nav-item" id="navMyBids"><a class="nav-link" href="my-bids.html"><span class="icon"><i class="fa-solid fa-gavel"></i></span><span class="name">MY BIDS</span></a></li>
+                <li class="active nav-item" id="navProfile"><a class="nav-link" href="profile.html"><span class="icon"><i class="fa-solid fa-user"></i></span><span class="name">PROFILE</span></a></li>
+                <li class="nav-item" id="navLogin"><a class="nav-link" href="login.html"><span class="icon"><i class="fa-solid fa-sign-in-alt"></i></span><span class="name">LOGIN</span></a></li>
+                <li class="nav-item" id="navRegister"><a class="nav-link" href="register.html"><span class="icon"><i class="fa-solid fa-user-plus"></i></span><span class="name">REGISTER</span></a></li>
+                <li class="nav-item" id="navLogout"><a class="nav-link" href="#" id="logoutLink"><span class="icon"><i class="fa-solid fa-sign-out-alt"></i></span><span class="name">LOGOUT</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container my-5">
+            <h2 class="section-title" id="profileHeading">User Profile</h2>
+                    <!-- Status Quick Stats -->
+                    <div class="row g-3 mb-4" id="statsContainer">
+                        <div class="col-md-4">
+                            <div class="card p-3 text-center border-0" style="background: rgba(59, 130, 246, 0.05); border-radius: 20px;">
+                                <div class="h3 fw-bold text-primary mb-0" id="stat1">-</div>
+                                <div class="small text-secondary" id="label1">Total Volume</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 text-center border-0" style="background: rgba(16, 185, 129, 0.05); border-radius: 20px;">
+                                <div class="h3 fw-bold text-success mb-0" id="stat2">-</div>
+                                <div class="small text-secondary" id="label2">Active Ops</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-3 text-center border-0" style="background: rgba(139, 92, 246, 0.05); border-radius: 20px;">
+                                <div class="h3 fw-bold text-purple mb-0" id="stat3" style="color: var(--accent-purple);">-</div>
+                                <div class="small text-secondary" id="label3">Success rate</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-4 mb-4 border-0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.5);">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="m-0" style="color: var(--primary);">System Identity / Profile</h4>
+                            <button id="editProfileBtn" class="btn-success" style="width: auto; padding: 8px 24px;">Edit Details</button>
+                        </div>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="text-secondary small text-uppercase fw-bold">Full Identity / Username</label>
+                                <p class="h5" id="profileUsername">-</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-secondary small text-uppercase fw-bold">Communications / Email</label>
+                                <p class="h5" id="profileEmail">-</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-secondary small text-uppercase fw-bold">Account Designation</label>
+                                <p class="h5" id="profileUserType">-</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-secondary small text-uppercase fw-bold">Established Date</label>
+                                <p class="h5" id="profileRegistrationDate">-</p>
+                            </div>
+                            <div class="col-md-6" id="profileCompanySection" style="display: none;">
+                                <label class="text-secondary small text-uppercase fw-bold">Corporate Entity</label>
+                                <p class="h5" id="profileCompany">-</p>
+                            </div>
+                            <div class="col-md-6" id="profileContactSection" style="display: none;">
+                                <label class="text-secondary small text-uppercase fw-bold">Direct Line / Contact</label>
+                                <p class="h5" id="profileContact">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="adminSections" style="display: none;">
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Manage Published Tenders</h4>
+                            <div id="createdTendersList" class="projects-grid"> <p class="text-muted" style="color: var(--yt-text-secondary);">Loading created projects...</p>
+                            </div>
+                        </div>
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Review Awarded Proposals</h4>
+                            <div id="acceptedBidsAdminList" class="projects-grid">
+                                <p class="text-muted" style="color: var(--yt-text-secondary);">Loading accepted bids...</p>
+                            </div>
+                        </div>
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Archive of Completed Tenders</h4>
+                            <div id="completedTendersAdminList" class="projects-grid">
+                                <p class="text-muted" style="color: var(--yt-text-secondary);">Loading completed projects...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bidderSections" style="display: none;">
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Tender Submission History</h4>
+                            <div id="allSubmittedBidsList" class="projects-grid">
+                                <p class="text-muted" style="color: var(--yt-text-secondary);">Loading all submitted bids...</p>
+                            </div>
+                        </div>
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Active Awarded Tenders</h4>
+                            <div id="acceptedBidsBidderList" class="projects-grid">
+                                <p class="text-muted" style="color: var(--yt-text-secondary);">Loading accepted bids...</p>
+                            </div>
+                        </div>
+                        <div class="card p-4 mb-4">
+                            <h4 class="text-secondary">Completed Project History</h4>
+                            <div id="completedBidsList" class="projects-grid">
+                                <p class="text-muted" style="color: var(--yt-text-secondary);">Loading completed bids...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const jwtToken = localStorage.getItem('jwtToken');
+            const userType = localStorage.getItem('userType');
+
+            const handleUnauthorized = (error) => {
+                if (error.message.includes('401') || error.message.includes('403')) {
+                    Swal.fire({
+                        title: 'Session Expired',
+                        text: 'Your session has expired or is invalid. Please log in again.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        localStorage.removeItem('jwtToken');
+                        localStorage.removeItem('userType');
+                        window.location.href = 'login.html';
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: error.message || 'Failed to load data. Please try again later.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            };
+
+            let globalProfileData = null;
+
+            if (!jwtToken) {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'Please log in to view your profile.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+
+            let currentUserId = null;
+            try {
+                const tokenPayload = jwtToken ? JSON.parse(atob(jwtToken.split('.')[1])) : null;
+                currentUserId = tokenPayload ? tokenPayload.user.id : null;
+            } catch (e) {
+                console.error("Error decoding JWT token for profile:", e);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Invalid session. Please log in again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('userType');
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+
+            async function fetchProfileData() {
+                try {
+                    const response = await fetch('/api/users/me', {
+                        headers: { 'x-auth-token': jwtToken }
+                    });
+                    if (response.status === 401 || response.status === 403) {
+                        throw new Error(`${response.status} Unauthorized/Forbidden`);
+                    }
+                    const profile = await response.json();
+                    globalProfileData = profile;
+
+                    if (!response.ok) {
+                        throw new Error(profile.msg || 'Failed to fetch profile data.');
+                    }
+
+                    document.getElementById('profileUsername').textContent = profile.userDetails.username || 'N/A';
+                    document.getElementById('profileEmail').textContent = profile.userDetails.email || 'N/A';
+                    document.getElementById('profileUserType').textContent = profile.userDetails.userType || 'N/A';
+                    document.getElementById('profileRegistrationDate').textContent = profile.userDetails.registrationDate ? new Date(profile.userDetails.registrationDate).toLocaleDateString() : 'N/A';
+
+                    if (profile.userDetails.userType === 'bidder') {
+                        document.getElementById('profileCompany').textContent = profile.userDetails.company || 'N/A';
+                        document.getElementById('profileContact').textContent = profile.userDetails.contact || 'N/A';
+                        document.getElementById('profileCompanySection').style.display = 'block';
+                        document.getElementById('profileContactSection').style.display = 'block';
+                    } else {
+                        document.getElementById('profileCompanySection').style.display = 'none';
+                        document.getElementById('profileContactSection').style.display = 'none';
+                    }
+
+                    if (profile.userDetails.userType === 'admin') {
+                        document.getElementById('adminSections').style.display = 'block';
+                        const tenders = profile.adminData?.createdTenders || [];
+                        const bidsOnMyTenders = profile.adminData?.bidsOnMyTenders || [];
+                        const accepted = profile.adminData?.acceptedBids || [];
+                        
+                        document.getElementById('stat1').textContent = tenders.length;
+                        document.getElementById('label1').textContent = 'Tenders Created';
+                        document.getElementById('stat2').textContent = tenders.filter(t => t.status === 'Open').length;
+                        document.getElementById('label2').textContent = 'Open Tenders';
+                        document.getElementById('stat3').textContent = bidsOnMyTenders.length;
+                        document.getElementById('label3').textContent = 'Total Bids Received';
+
+                        renderTenderList(tenders, 'createdTendersList');
+                        renderBidList(accepted, 'acceptedBidsAdminList');
+                        const completedAdminTenders = tenders.filter(tender => tender.status === 'Completed');
+                        renderTenderList(completedAdminTenders, 'completedTendersAdminList');
+                    }
+                    else if (profile.userDetails.userType === 'bidder') {
+                        document.getElementById('bidderSections').style.display = 'block';
+                        const allBids = profile.bidderData?.allSubmittedBids || [];
+                        const acceptedBids = profile.bidderData?.acceptedBids || [];
+                        const winRate = allBids.length > 0 ? Math.round((acceptedBids.length / allBids.length) * 100) : 0;
+                        
+                        document.getElementById('stat1').textContent = allBids.length;
+                        document.getElementById('label1').textContent = 'Total Bids';
+                        document.getElementById('stat2').textContent = acceptedBids.length;
+                        document.getElementById('label2').textContent = 'Accepted Bids';
+                        document.getElementById('stat3').textContent = winRate + '%';
+                        document.getElementById('label3').textContent = 'Winning Rate';
+
+                        renderBidList(allBids, 'allSubmittedBidsList');
+                        renderBidList(acceptedBids, 'acceptedBidsBidderList');
+                        renderBidList(profile.bidderData?.completedBids || [], 'completedBidsList');
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching user profile:', error);
+                    document.getElementById('profileHeading').textContent = 'Profile Load Error';
+                    document.getElementById('profileUsername').textContent = `Error: ${error.message}`;
+                    handleUnauthorized(error);
+                }
+            }
+
+            function renderTenderList(projects, containerId) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                if (!Array.isArray(projects) || projects.length === 0) {
+                    container.innerHTML = '<p class="text-muted" style="color: var(--yt-text-secondary);">No items found.</p>';
+                    return;
+                }
+                projects.forEach(item => {
+                    // Corrected link to tender-details.html and adapted to project-card style
+                    container.innerHTML += `
+                        <a href="tender-details.html?id=${item._id}" class="project-card">
+                            <h3>${item.title}</h3>
+                            <small>Status: ${item.status}</small>
+                            <small>Deadline: ${new Date(item.endDate).toLocaleDateString()}</small>
+                        </a>
+                    `;
+                });
+            }
+
+            function renderBidList(bids, containerId) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                if (!Array.isArray(bids) || bids.length === 0) {
+                    container.innerHTML = '<p class="text-muted" style="color: var(--yt-text-secondary);">No bids found.</p>';
+                    return;
+                }
+                bids.forEach(bid => {
+                    if (bid.tender) { // Only render bid if bid.tender is not null (i.e., the tender still exists)
+                        // Corrected link to tender-details.html for the tender title, adapted to project-card style
+                        container.innerHTML += `
+                            <div class="project-card">
+                                <h3>Tender ${bid.tender.title}</h3>
+                                <p><strong>Bid Amount:</strong> $${bid.bidAmount.toLocaleString()}</p>
+                                <small>Status: ${bid.status} | Submitted On: ${new Date(bid.createdAt).toLocaleDateString()}</small>
+                                <small>Bidder: ${bid.bidder && bid.bidder.username ? bid.bidder.username : 'You'}</small>
+                                ${bid.status === 'Accepted' && bid.tender.status === 'Awarded' ? `
+                                    <button class="project-link mark-complete-btn" style="background-color: var(--success); margin-top: 10px; border-radius: 8px; color: white; border: none; padding: 8px 16px;" data-bid-id="${bid._id}">Mark as Completed</button>
+                                ` : ''}
+                                <a href="tender-details.html?id=${bid.tender._id}&from=profile" class="project-link">View Details</a>
+                            </div>
+                        `;
+                    } else {
+                        console.log("Skipping bid in profile due to null tender:", bid);
+                    }
+                });
+                // Attach event listeners for "Mark as Completed" buttons after rendering
+                document.querySelectorAll('.mark-complete-btn').forEach(button => {
+                    button.addEventListener('click', handleMarkComplete);
+                });
+            }
+
+            // Function to handle marking a bid as completed (copied from my-bids.html)
+            async function handleMarkComplete(event) {
+                const bidId = event.target.dataset.bidId;
+                const token = localStorage.getItem('jwtToken');
+
+                try {
+                    const response = await fetch(`/api/bids/${bidId}/complete`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': token
+                        }
+                    });
+
+                    if (response.status === 401 || response.status === 403) {
+                        throw new Error(`${response.status} Unauthorized/Forbidden`);
+                    }
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Tender marked as completed successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            fetchProfileData(); // Refresh profile data
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: result.msg || 'Failed to mark tender as completed.',
+                            icon: 'error',
+                            confirmButtonText: 'Try Again'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error marking tender as completed:', error);
+                    handleUnauthorized(error);
+                }
+            }
+
+            fetchProfileData();
+
+            // Edit Profile Functionality
+            const editBtn = document.getElementById('editProfileBtn');
+            if (editBtn) {
+                editBtn.addEventListener('click', () => {
+                    const user = globalProfileData.userDetails;
+                    Swal.fire({
+                        title: 'Update Personal Details',
+                        html: `
+                            <input id="swal-username" class="swal2-input" placeholder="Username" value="${user.username}">
+                            <input id="swal-email" class="swal2-input" placeholder="Email" value="${user.email}">
+                            ${user.userType === 'bidder' ? `
+                                <input id="swal-company" class="swal2-input" placeholder="Company" value="${user.company || ''}">
+                                <input id="swal-contact" class="swal2-input" placeholder="Contact" value="${user.contact || ''}">
+                            ` : ''}
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Save Changes',
+                        preConfirm: () => {
+                            return {
+                                username: document.getElementById('swal-username').value,
+                                email: document.getElementById('swal-email').value,
+                                ...(user.userType === 'bidder' ? {
+                                    company: document.getElementById('swal-company').value,
+                                    contact: document.getElementById('swal-contact').value
+                                } : {})
+                            }
+                        }
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                const response = await fetch('/api/users/profile', {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'x-auth-token': jwtToken
+                                    },
+                                    body: JSON.stringify(result.value)
+                                });
+                                const data = await response.json();
+                                if (response.ok) {
+                                    Swal.fire('Updated!', 'Your profile has been updated.', 'success');
+                                    fetchProfileData(); // Refresh UI
+                                } else {
+                                    throw new Error(data.msg || 'Update failed');
+                                }
+                            } catch (err) {
+                                Swal.fire('Error', err.message, 'error');
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Dynamic Navbar Logic (copied from home.html and adapted)
+            const navDashboard = document.getElementById('navDashboard');
+            const navCreateTender = document.getElementById('navCreateTender');
+            const navMyBids = document.getElementById('navMyBids');
+            const navProfile = document.getElementById('navProfile');
+            const navLogin = document.getElementById('navLogin');
+            const navRegister = document.getElementById('navRegister');
+            const navLogout = document.getElementById('navLogout');
+            const logoutLink = document.getElementById('logoutLink');
+            
+            const navHome = document.getElementById('navHome');
+            const navContact = document.getElementById('navContact');
+
+
+            const updateNavbar = () => {
+                const jwtTokenInScope = localStorage.getItem('jwtToken'); // Get current token
+                const userTypeInScope = localStorage.getItem('userType'); // Get current userType
+
+                if (navLogin) navLogin.style.display = 'list-item';
+                if (navRegister) navRegister.style.display = 'list-item';
+                if (navDashboard) navDashboard.style.display = 'list-item';
+                if (navLogout) navLogout.style.display = 'list-item';
+                if (navProfile) navProfile.style.display = 'list-item';
+                if (navHome) navHome.style.display = 'list-item';
+                if (navCreateTender) navCreateTender.style.display = 'list-item';
+                if (navMyBids) navMyBids.style.display = 'list-item';
+
+                if (jwtTokenInScope) { // User is logged in
+                    if (navLogin) navLogin.style.display = 'none';
+                    if (navRegister) navRegister.style.display = 'none';
+                    
+                    if (userTypeInScope === 'admin') {
+                        if (navMyBids) navMyBids.style.display = 'none';
+                    } else if (userTypeInScope === 'bidder') {
+                        if (navCreateTender) navCreateTender.style.display = 'none';
+                    } else {
+                        if (navCreateTender) navCreateTender.style.display = 'none';
+                        if (navMyBids) navMyBids.style.display = 'none';
+                    }
+                } else {
+                    if (navDashboard) navDashboard.style.display = 'none';
+                    if (navCreateTender) navCreateTender.style.display = 'none';
+                    if (navMyBids) navMyBids.style.display = 'none';
+                    if (navLogout) navLogout.style.display = 'none';
+                    if (navProfile) navProfile.style.display = 'none';
+                }
+            };
+
+            updateNavbar();
+
+            if (logoutLink) {
+                logoutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('userType');
+                    Swal.fire({ title: 'Logged out!', text: 'You have been logged out.', icon: 'success', timer: 1500, showConfirmButton: false }).then(() => {
+                        window.location.href = 'home.html';
+                    });
+                });
+            }
+        });
+    </script>
+
+    
+
+</body>
+</html>
